@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+}
+@model SV.Models.SlotModels
+<div class="row form-horizontal form-label-left" style="margin-bottom:15px;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <fieldset style="width: 100%">
+                    <legend>Thông tin chung</legend>
+                    <div class="first-step-group-criteria" style="padding-top:10px; margin-bottom: 10px;">
+                        <div class="form-row">
+                            <div class=" mb-3">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Mã slot <sup class="text-danger">*</sup></label>
+                                        @Html.HiddenFor(model => model.Id)
+                                        @Html.HiddenFor(model => model.CreatedBy)
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", placeholder = "Mã slot", @autocomplete = "off", @required = "@required" })
+                                        @Html.ValidationMessageFor(model => model.Code, null, new { @class = "label label-danger text-danger" })
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Khóa học <sup class="text-danger">*</sup></label>
+                                        @Html.DropDownList("CourseId",
+                                                        new SelectList(ViewBag.Course, "Value", "Text", Model.CourseId), null,
+                                                        new
+                                                        {
+                                                            @class = "form-control custom-select",
+                                                            @style = "",
+                                                            @id = "CourseId"
+                                                        })
+                                        @Html.ValidationMessageFor(model => model.CourseId, null, new { @class = "label label-danger text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Thời gian bắt đầu <sup class="text-danger">*</sup></label>
+                                        <div class="col-md-10 " id="">
+                                            @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @id = "StartTime", placeholder = "Thời gian bắt đầu", @required = "", @type = "datetime-local", @Value = Model.StartTime.ToString("yyyy-MM-dd HH:mm:ss") })
+                                            @Html.ValidationMessageFor(m => m.StartTime, "Thông tin bắt buộc.", new { @class = "invalid-feedback" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Thời gian kết thúc <sup class="text-danger">*</sup></label>
+                                        <div class="col-md-10 input-group" id="">
+                                            @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @id = "EndTime", placeholder = "Thời gian kết thúc", @required = "", @type = "datetime-local", @Value = Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss") })
+                                            @Html.ValidationMessageFor(m => m.EndTime, "Thông tin bắt buộc.", new { @class = "invalid-feedback" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label>Giáo viên <sup class="text-danger">*</sup></label>
+                                            @Html.DropDownList("LecturerId",
+                                                            new SelectList(ViewBag.Lecturer, "Value", "Text", Model.LecturerId), null,
+                                                            new
+                                                            {
+                                                                @class = "form-control custom-select",
+                                                                @style = "",
+                                                                @id = "LecturerId"
+                                                            })
+                                            @Html.ValidationMessageFor(model => model.LecturerId, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Môn học <sup class="text-danger">*</sup></label>
+                                            @Html.DropDownList("SubjectId",
+                                                            new SelectList(ViewBag.Subject, "Value", "Text", Model.SubjectId), null,
+                                                            new
+                                                            {
+                                                                @class = "form-control custom-select",
+                                                                @style = "",
+                                                                @id = "SubjectId"
+                                                            })
+                                            @Html.ValidationMessageFor(model => model.SubjectId, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label>Sinh viên <sup class="text-danger">*</sup></label>
+                                            @Html.DropDownList("StudentIds",
+                                                            new SelectList(ViewBag.Student, "Value", "Text", Model.StudentIds), null,
+                                                            new
+                                                            {
+                                                                @class = "form-control select2_multiple custom-select",
+                                                                @style = "",
+                                                                @id = "StudentIds",
+                                                                @multiple = true
+                                                            })
+                                            @Html.ValidationMessageFor(model => model.StudentIds, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="text-right">
+                    <a href="@Url.Action("Index","Slot")" class="btn btn-default">Thoát</a>
+                    <button class="btn btn-primary" type="submit">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var _SinhVienIds = '@Html.Raw(Json.Encode(Model.StudentIds))'
+        if (_SinhVienIds.length > 0) {
+            $('#StudentIds').val(JSON.parse(_SinhVienIds)).trigger("change");
+        }
+    })
+</script>

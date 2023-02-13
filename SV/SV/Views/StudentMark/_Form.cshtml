@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+@model SV.Models.StudentMarkModels
+<div class="row form-horizontal form-label-left" style="margin-bottom:15px;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <fieldset style="width: 100%">
+                    <legend>Thông tin chung</legend>
+                    <div class="first-step-group-criteria" style="padding-top:10px; margin-bottom: 10px;">
+                        <div class="form-row">
+                            <div class="mb-3">
+                                <div class="form-row mb-3">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <label class="col-md-4 col-form-label">Chọn khóa học:</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("CourseId",
+                                                        new SelectList(ViewBag.Course, "Value", "Text", Model.CourseId), null,
+                                                        new
+                                                        {
+                                                            @class = "form-control custom-select",
+                                                            @style = "",
+                                                            @id = "CourseId"
+                                                        })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <label class="col-md-4 col-form-label">Chọn môn học:</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("SubjectId",
+                                                        new SelectList(ViewBag.Subject, "Value", "Text", Model.SubjectId), null,
+                                                        new
+                                                        {
+                                                            @class = "form-control custom-select",
+                                                            @style = "",
+                                                            @id = "SubjectId"
+                                                        })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <label class="col-md-4 col-form-label">Chọn sinh viên:</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => model.StudentId,
+                                                     new SelectList(ViewBag.Student, "Value", "Text", Model.StudentId), null,
+                                                     new
+                                                     {
+                                                         @class = "form-control custom-select",
+                                                         @style = "width:100%;",
+                                                         @id = "StudentId"
+                                                     })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label>Điểm quiz <sup class="text-danger">*</sup></label>
+                                            @Html.TextBoxFor(model => model.PointStudy, new { @class = "form-control", @autocomplete = "off", @required = "@required", @type = "number", @min="0",@max="10"})
+                                            @Html.ValidationMessageFor(model => model.PointStudy, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Điểm giữa kỳ <sup class="text-danger">*</sup></label>
+                                            @Html.TextBoxFor(model => model.PointGK, new { @class = "form-control", @autocomplete = "off", @required = "@required", @type = "number", @min = "0", @max = "10" })
+                                            @Html.ValidationMessageFor(model => model.PointGK, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Điểm cuối kỳ <sup class="text-danger">*</sup></label>
+                                            @Html.TextBoxFor(model => model.PointCK, new { @class = "form-control", @autocomplete = "off", @required = "@required", @type = "number", @min = "0", @max = "10" })
+                                            @Html.ValidationMessageFor(model => model.PointCK, null, new { @class = "label label-danger text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="text-right">
+                    <a href="@Url.Action("Index","StudentMark")" class="btn btn-default">Thoát</a>
+                    <button class="btn btn-primary" type="submit">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

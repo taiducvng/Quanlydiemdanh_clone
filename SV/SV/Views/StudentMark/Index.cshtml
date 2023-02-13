@@ -1,0 +1,164 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = Session["User"] as SV.Models.UserSession;
+}
+@model List<SV.Models.StudentMarkModels>
+
+<div class="account-management">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10"><h4>Quản lý điểm</h4></div>
+                        
+                        <div class="col-md-2">
+                            <a href="@Url.Action("New", "StudentMark")" class="btn btn-outline-info">Thêm mới</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label class="col-md-4 col-form-label">Chọn khóa học:</label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("course",
+                                        new SelectList(ViewBag.Course, "Value", "Text", "1"), null,
+                                        new
+                                        {
+                                            @class = "form-control custom-select",
+                                            @style = "",
+                                            @id = "course"
+                                        })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label class="col-md-4 col-form-label">Chọn môn học:</label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("subject",
+                                        new SelectList(ViewBag.Subject, "Value", "Text", "1"), null,
+                                        new
+                                        {
+                                            @class = "form-control custom-select",
+                                            @style = "",
+                                            @id = "subject"
+                                        })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">                            
+                            <button class="btn btn-success" id="idLocKQ">Lọc kết quả</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive m-t-40">
+                        <table id="config-table" class="table display table-bordered table-striped no-wrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th data-priority="1" style="max-width:25px !important;">No.</th>
+                                    <th data-priority="1">Mã sinh viên</th>
+                                    <th data-priority="1">Tên sinh viên</th>
+                                    <th data-priority="1">Email</th>
+                                    <th data-priority="1">Khóa</th>
+                                    <th data-priority="1">Môn học</th>
+                                    <th data-priority="1">Quiz</th>
+                                    <th data-priority="1">Giữa kỳ</th>
+                                    <th data-priority="1">Cuối kỳ</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    var No = 0;
+                                    foreach (var item in Model)
+                                    {
+                                        No = No + 1;
+                                        <tr>
+                                            <td>@No</td>
+                                            <td>@item.Code</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.CourseName</td>
+                                            <td>@item.SubjectName</td>
+                                            <td>@item.PointStudy</td>
+                                            <td>@item.PointGK</td>
+                                            <td>@item.PointCK</td>
+                                           
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-xl" tabindex="-1" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Extra large modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Cras mattis consectetur purus sit amet fermentum.
+                    Cras justo odio, dapibus ac facilisis in,
+                    egestas eget quam. Morbi leo risus, porta ac
+                    consectetur ac, vestibulum at eros.
+                </p>
+                <p>
+                    Praesent commodo cursus magna, vel scelerisque
+                    nisl consectetur et. Vivamus sagittis lacus vel
+                    augue laoreet rutrum faucibus dolor auctor.
+                </p>
+                <p class="mb-0">
+                    Aenean lacinia bibendum nulla sed consectetur.
+                    Praesent commodo cursus magna, vel scelerisque
+                    nisl consectetur et. Donec sed odio dui. Donec
+                    ullamcorper nulla non metus auctor
+                    fringilla.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<script>
+    $('#config-table').DataTable({
+        responsive: true
+    });
+
+    $('#idLocKQ').click(function () {
+        debugger
+        var nam = $('#course').val()
+        var subject = $('#subject').val()
+        $.ajax({
+            url: "@(Url.Action("Search", "StudentMark"))",
+            type: "POST",
+            dataType: "json",
+            data: { course: nam, subject: subject },
+            success: function (data) {
+                alert(data);
+            }
+        });
+    });
+</script>
